@@ -1,9 +1,9 @@
-const { createTemp } = require("../Controllers/tempsController")
+const { cGetTemp } = require("../Controllers/tempsController")
 
-const createTempHandler = async (req, res) => {
+const getTempHandler = async (req, res) => {
     
     try {
-        const newTemps = await createTemp();
+        const newTemps = await cGetTemp();
         res.status(200).json(newTemps);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -13,5 +13,5 @@ const createTempHandler = async (req, res) => {
 
 
 module.exports = {
-    createTempHandler,
+    getTempHandler,
 };

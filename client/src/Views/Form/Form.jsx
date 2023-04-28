@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Form = () => {
@@ -23,7 +23,7 @@ const Form = () => {
         life_span: "",
         temperaments: ""
     })
-
+    const [temperaments, setTemperaments] = useState([]);
 
     const changeHandler = (event) => {
         const property = event.target.name;
@@ -37,50 +37,46 @@ const Form = () => {
         let expression = /^[a-zA-Z ]+$/gm;
         let aux = {};
 
-        (!form.name) && (aux = { name: "Name is required" })
+        (!form.name) && (aux.name = "Name is required");
 
-        if (!form.heightMin) {
-            aux = { ...aux, heightMin: "Height min is required" }
-        }
-        if (!form.heightMax) {
-            aux = { ...aux, heightMax: "Height max is required" }
-        }
-        if (!form.weightMin) {
-            aux = { ...aux, weightMin: "Weight min is required" }
-        }
-        if (!form.weightMax) {
-            aux = { ...aux, weightMax: "Weight max is required" }
-        }
-        if (!form.image) {
-            setErrors({ ...errors, image: "Image is required" });
-        }
+        (!form.heightMin) && (aux.heightMin = "Height min is required");
 
-        if (parseInt(form.name)) {
-            setErrors({ ...errors, name: "Name is invalid, write a text" });
+        (!form.heightMax) && (aux.heightMax = "Height max is required");
+
+        (!form.weightMin) && (aux.weightMin = "Weight min is required");
+
+        (!form.weightMax) && (aux.weightMax = "Weight max is required");
+
+        (!form.image) && (aux.image = "Image is required");
+
+        (!form.life_span) && (aux.life_span = "Life span is required");
+
+
+        if (!isNaN(parseInt(form.name))) {
+            (aux.name = "Name is invalid, write a text");
         } else if (!expression.test(form.name)) {
-            setErrors({ ...errors, name: "Special caracters aren't supported" });
+            (aux.name = "Special caracters aren't supported");
         }
 
-        if (!form.life_span) {
-            setErrors({ ...errors, life_span: "Life span is required" });
-        } else if (form.life_span > 20 || form.life_span < 1) {
-            setErrors({ ...errors, life_span: " life span must be a number from 1 - 20" });
+
+        if (form.life_span > 20 || form.life_span < 1) {
+            (aux.life_span = " life span must be a number from 1 - 20");
         }
 
-        if (Number(form.weightMin) <= 0 || Number(form.weightMin >= 100)) {
-            setErrors({ ...errors, weightMin: "Minimum heigh must be a number from 0 - 100" });
+        if (Number(form.weightMin) <= 0 || Number(form.weightMin) >= 100) {
+            (aux.weightMin = "Minimum heigh must be a number from 0 - 100");
         }
-        if (Number(form.weightMax) <= 0 || Number(form.weightMax > 100)) {
-            setErrors({ ...errors, weightMax: "Maximun weight must be a number from 0 - 150" });
+        if (Number(form.weightMax) <= 0 || Number(form.weightMax) > 150) {
+            (aux.weightMax = "Maximun weight must be a number from 0 - 150");
         }
         if (Number(form.heightMin) <= 0 || Number(form.heightMin) >= 100) {
-            setErrors({ ...errors, heightMin: "Minimun height must be a number from 0 - 100" });
+            (aux.heightMin = "Minimun height must be a number from 0 - 100");
         }
         if (Number(form.heightMax) <= 0 || Number(form.heightMax) > 100) {
-            setErrors({ ...errors, heightMax: "Maximun height must be a number from 0 - 100" });
+            (aux.heightMax = "Maximun height must be a number from 0 - 100");
         }
         if (!form.temperaments?.length) {
-            setErrors({ ...errors, temperaments: "Select at least 1 temperament" });
+            (aux. temperaments = "Select at least 1 temperament" );
         }
         setErrors({ ...aux })
         // return errors;
@@ -95,11 +91,13 @@ const Form = () => {
 
     const reqTempBd = async () => {
         const tempBd = await axios.get("http://localhost:3001/temperaments/");
-        console.log(tempBd.data);
+        console.log(tempBd.data)
+        return tempBd.data;
     }
 
-
-
+    useEffect(async () => {
+        setTemperaments(await reqTempBd())
+    }, [])
 
     return (
         <form onSubmit={submitHandler}>
@@ -145,11 +143,18 @@ const Form = () => {
                 {errors.life_span && <span>{errors.life_span}</span>}
             </div>
 
-            <div>
+            {/* <div>
                 <label>Temperamentos: </label>
                 <input type="text" value={form.temperaments} onChange={changeHandler} name="temperaments" />
                 {errors.temperaments && <span>{errors.temperaments}</span>}
-            </div>
+            </div> */}
+
+            {temperaments.length > 0 && temperaments.map((t) => {
+                return (<div>
+                    <input type='checkbox' id={t.name} name={t.name} />
+                    <label>{t.name}</label>
+                </div>)
+            })}
 
             <button type="submit">SUBMIT</button>
 

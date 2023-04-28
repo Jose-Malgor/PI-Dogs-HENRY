@@ -3,17 +3,19 @@ import style from "./CardsContainer.module.css"
 import { useSelector } from "react-redux";
 
 
-const CardsContainer = ()=>{
-    const dogs = useSelector(state=>state.dogs);  // Extraigo los dogs del estado global
+const CardsContainer = (props)=>{
+    const currentDogs = props.currentDogs; 
+        
     return(
         <div className={style.container}>
-            {dogs.map(dog=>{
+            {currentDogs.map(dog=>{
                 return <Card
                 image={dog.image}
                 name={dog.name}
                 temperaments={dog.temperaments}
                 weightMin={dog.weightMin}
                 weightMax={dog.weightMax}
+                id={dog.id}
                 />
 
             })}

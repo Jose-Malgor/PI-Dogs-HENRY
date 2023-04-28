@@ -6,7 +6,7 @@ const { API_KEY } = process.env;
 
 
 
-const createTemp = async () =>{
+const cGetTemp = async () =>{
 const apiInfo = (
     await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)
 );
@@ -34,5 +34,5 @@ const apiTemp = apiInfo.data
 }
 
 module.exports={
-    createTemp,
+    cGetTemp,
 }
