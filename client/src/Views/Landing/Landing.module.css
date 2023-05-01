@@ -35,5 +35,15 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+.link {
+  color:#1e5fbb88;
+  text-decoration: none;
+  font-size: 24px;
+  margin-top: 20px;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
 
 

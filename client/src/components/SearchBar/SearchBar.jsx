@@ -2,9 +2,10 @@ import { useState } from "react";
 import {getDogByName } from "../../redux/actions"
 import { useDispatch } from "react-redux";
 import lupa from "../../img/lupa.png"
+import styles from "../SearchBar/SearchBar.module.css"
 
 
-export default function SearchBar({}) {
+export default function SearchBar() {
     const [name, setName] = useState("");
     const dispatch = useDispatch();
 
@@ -25,9 +26,9 @@ export default function SearchBar({}) {
 
    return (
       <div>
-         <input type='search' placeholder="Search dog by name" onChange={handleOnChange} />
+         <input className={styles.input} type='search' placeholder="Search dog by name" onChange={handleOnChange} />
          <button onClick={() => handleSubmit(name)}>Search 
-         <img src={lupa} alt="lupa" style={{ maxWidth: "23px" }} />
+         <img src={lupa} alt="lupa" style={{ maxWidth: "25px" }} />
          </button>
          
       </div>

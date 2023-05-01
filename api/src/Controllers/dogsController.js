@@ -15,6 +15,10 @@ const CcleanArray = (arr) =>
             ? dog.weight.metric.split(" - ")
             : [null, null];
 
+        //const temperaments = dog.temperament
+        //?dog.temperament.split(", ")
+        //:[null];
+
         return {
             id: dog.id,
             image: dog.image.url,

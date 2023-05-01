@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Form = () => {
     const [form, setForm] = useState({
@@ -23,7 +24,7 @@ const Form = () => {
         life_span: "",
         temperaments: ""
     })
-    const [temperaments, setTemperaments] = useState([]);
+    
 
     const changeHandler = (event) => {
         const property = event.target.name;
@@ -31,7 +32,9 @@ const Form = () => {
 
         validate({ ...form, [property]: value }) // le paso el valor que va a tener el estado para que vayan sincronizados.
         setForm({ ...form, [property]: value })
-    }
+     
+    };
+    
 
     const validate = (form) => {
         let expression = /^[a-zA-Z ]+$/gm;
@@ -76,7 +79,7 @@ const Form = () => {
             (aux.heightMax = "Maximun height must be a number from 0 - 100");
         }
         if (!form.temperaments?.length) {
-            (aux. temperaments = "Select at least 1 temperament" );
+            (aux.temperaments = "Select at least 1 temperament" );
         }
         setErrors({ ...aux })
         // return errors;
@@ -89,58 +92,64 @@ const Form = () => {
             .catch(err => alert(err))
     }
 
-    const reqTempBd = async () => {
-        const tempBd = await axios.get("http://localhost:3001/temperaments/");
-        console.log(tempBd.data)
-        return tempBd.data;
-    }
-
-    useEffect(async () => {
-        setTemperaments(await reqTempBd())
-    }, [])
+    const temperaments = useSelector((state) => state.temperaments);
+   
 
     return (
+        
         <form onSubmit={submitHandler}>
+            <h1>Create your dog!!</h1>
             <div>
-                <label>Imagen: </label>
+                <label>Image: </label>
                 <input type="text" value={form.image} onChange={changeHandler} name="image" />
                 {errors.image && <span>{errors.email}</span>}
             </div>
 
             <div>
-                <label>Nombre: </label>
+                <label>Name: </label>
                 <input type="text" value={form.name} onChange={changeHandler} name="name" />
                 {errors.name && <span>{errors.name}</span>}
             </div>
 
             <div>
-                <label>Altura Min: </label>
+                <label>Height Min: </label>
                 <input type="text" value={form.heightMin} onChange={changeHandler} name="heightMin" />
                 {errors.heightMin && <span>{errors.heightMin}</span>}
             </div>
 
             <div>
-                <label>Altura Max: </label>
+                <label>Height Max: </label>
                 <input type="text" value={form.heightMax} onChange={changeHandler} name="heightMax" />
                 {errors.heightMax && <span>{errors.heightMax}</span>}
             </div>
 
             <div>
-                <label>Peso Min: </label>
+                <label>Weight Min: </label>
                 <input type="text" value={form.weightMin} onChange={changeHandler} name="weightMin" />
                 {errors.weightMin && <span>{errors.weightMin}</span>}
             </div>
 
             <div>
-                <label>Peso Max: </label>
+                <label>Weight Max: </label>
                 <input type="text" value={form.weightMax} onChange={changeHandler} name="weightMax" />
                 {errors.weightMax && <span>{errors.weightMax}</span>}
             </div>
 
             <div>
-                <label>Años de vida: </label>
+                <label>Life span: </label>
                 <input type="text" value={form.life_span} onChange={changeHandler} name="life_span" />
                 {errors.life_span && <span>{errors.life_span}</span>}
+            </div>
+
+            <div>
+                <span> Temperament </span>
+                <select onChange={changeHandler} name="temperaments">
+                    {temperaments.map((temp, index) => (
+                        <option  value={temp.name} key={index} >
+                            {temp.name}
+                        </option>
+                    ))}
+                </select>
             </div>
 
             {/* <div>
@@ -149,12 +158,13 @@ const Form = () => {
                 {errors.temperaments && <span>{errors.temperaments}</span>}
             </div> */}
 
-            {temperaments.length > 0 && temperaments.map((t) => {
+
+            {/* {temperaments.length > 0 && temperaments.map((t) => {
                 return (<div>
-                    <input type='checkbox' id={t.name} name={t.name} />
+                    <input type='checkbox' id={t.name} name={t.name} onChange={changeHandler} />
                     <label>{t.name}</label>
                 </div>)
-            })}
+            })} */}
 
             <button type="submit">SUBMIT</button>
 

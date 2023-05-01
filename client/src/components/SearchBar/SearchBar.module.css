@@ -1,0 +1,26 @@
+.input {
+    height: 40px;
+    width: 300px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  button {
+    background-color: #63a1f8bd;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 40px;
+    vertical-align: middle;
+  }
+  
+  button:hover {
+    background-color: #0062cc;
+  }

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getDogById } from "../../redux/actions"
 import style from "./Detail.module.css"
 import { useParams } from "react-router-dom";
@@ -45,10 +45,12 @@ const Detail = () => {
                 <h3>Life Span: </h3>
                 <p>{dog.life_span}</p>
               </div>
+              <h3>Temperaments: </h3>
               <p>
-                {Array.isArray(dog.temperaments)
+                {/* {Array.isArray(dog.temperaments)
                   ? dog.temperaments.map((e) => e.name).join(", ")
-                  : dog.temperament}
+                  : dog.temperament} */}
+                  {dog.temperaments}
               </p>
             </div>
             </div>

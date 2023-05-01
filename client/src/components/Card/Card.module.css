@@ -13,8 +13,8 @@
   .card {
     background-color: #ffffff;
     border: 3px solid black;
-    width: 332px;
-    height: 550px;
+    width: 20%;
+    height: 450px;
     display: flex;
     flex-direction: column;
     margin: 10px;
@@ -37,7 +37,7 @@
     max-height: 100%;
     transition: transform 0.2s ease-in-out;
     display: block;
-    border-radius: 20px 20px 0 0;
+    border-radius: 20px 20px 20px 20px;
   }
   
   .card:hover .cardImage {
@@ -84,7 +84,7 @@
     }
   
     .cardImage {
-      border-radius: 32px 32px 0 0;
+      border-radius: 32px 32px 32px 32px;
     }
   
     .card:hover .cardImage {

@@ -3,9 +3,11 @@ export const GET_DOGS = "GET_DOGS";
 export const GET_DOG_BY_ID = "GET_DOG_BY_ID";
 export const GET_DOG_BY_NAME = "GET_DOG_BY_NAME";
 export const FILTER_BY_TEMP = "FILTER_BY_TEMP";
-export const GET_TEMPS = "GET_TEMPS"
+export const GET_TEMPS = "GET_TEMPS";
+export const ORDER_BY_NAME = "ORDER_BY_NAME";
+export const ORDER_BY_WEIGHT = "ORDER_BY_WEIGHT";
 
-//export const FILTER_BY_SOURCE = "FILTER_BY_SOURCE";
+
 
 export const getDogs = () =>{
     return async function (dispatch){
@@ -43,6 +45,15 @@ export const getTemperaments = () =>{
 };
 };
 
+export function orderByName (order) {
+    return{type: ORDER_BY_NAME,
+        payload: order};
+    };
+
+    export function orderByWeight (peso) {
+        return{type: ORDER_BY_WEIGHT,
+            payload: peso};
+        };
 
 
 export function filterByTemperament (temp) {

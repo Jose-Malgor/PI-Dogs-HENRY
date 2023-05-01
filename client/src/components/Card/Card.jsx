@@ -7,11 +7,11 @@ const Card = (props)=>{
             <Link to={`/detail/${props.id}`} className={style.link}>
             
             <img className={style.cardImage} src={props.image} alt={props.image}/>
-            <p>Nombre: {props.name}</p>
-            <p>Temperamentos: {props.temperaments}</p>
-            <p>Peso Min: {props.weightMin}</p>
-            <p>Peso Max: {props.weightMax}</p>
-            <p>ID: {props.id}</p>
+            <p>Name: {props.name}</p>
+            <p>Temperaments: {props.temperaments}</p>
+            <p>Weight Min: {props.weightMin}</p>
+            <p>Weight Max: {props.weightMax}</p>
+            
             </Link>
 
         </div>

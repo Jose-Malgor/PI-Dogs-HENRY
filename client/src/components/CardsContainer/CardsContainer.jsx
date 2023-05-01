@@ -1,6 +1,6 @@
 import Card from "../Card/Card";
 import style from "./CardsContainer.module.css"
-import { useSelector } from "react-redux";
+
 
 
 const CardsContainer = (props)=>{
@@ -16,6 +16,7 @@ const CardsContainer = (props)=>{
                 weightMin={dog.weightMin}
                 weightMax={dog.weightMax}
                 id={dog.id}
+                key={dog.id}
                 />
 
             })}
