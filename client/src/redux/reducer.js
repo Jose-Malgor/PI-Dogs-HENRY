@@ -1,4 +1,4 @@
-import { GET_DOGS, GET_DOG_BY_ID, GET_DOG_BY_NAME, FILTER_BY_TEMP, GET_TEMPS, ORDER_BY_NAME, ORDER_BY_WEIGHT } from "./actions";
+import { GET_DOGS, GET_DOG_BY_ID, GET_DOG_BY_NAME, FILTER_BY_TEMP, GET_TEMPS, ORDER_BY_NAME, ORDER_BY_WEIGHT, ORDER_BY_SORT } from "./actions";
 
 const initialState = {
     dogs: [],
@@ -28,9 +28,9 @@ const rootReducer = (state = initialState, action) => {
         case FILTER_BY_TEMP:
             const allDogs = state.dogs
             const temp = `'${action.payload}'`;
-            const filteredDogs =
+            const filteredDogsTemp =
                 allDogs.filter((dog) => dog.temperament?.includes(temp));
-            return { ...state, dogs: filteredDogs };
+            return { ...state, dogs: filteredDogsTemp };
 
 
         case ORDER_BY_NAME:
@@ -51,17 +51,28 @@ const rootReducer = (state = initialState, action) => {
         case ORDER_BY_WEIGHT:
             let orderWeightFunction =
                 action.payload === "Weightiest"
-                ? (a, b) => {
-                    return parseInt(a.weightMax) > parseInt(b.weightMax) ? -1 : 1;
-                  }
-                : (a, b) => {
-                    return parseInt(a.weightMin) > parseInt(b.weightMin) ? 1 : -1;
-                  };
+                    ? (a, b) => {
+                        return parseInt(a.weightMax) > parseInt(b.weightMax) ? -1 : 1;
+                    }
+                    : (a, b) => {
+                        return parseInt(a.weightMin) > parseInt(b.weightMin) ? 1 : -1;
+                    };
             let orderedWeight = state.dogs.sort(orderWeightFunction);
             return {
                 ...state,
                 dogs: [...orderedWeight],
             };
+
+        case ORDER_BY_SORT:
+            const dogs = state.dogs
+            let filteredDogsSort;
+            action.payload === 'Db-dogs' ?
+                filteredDogsSort = dogs.filter(dog => dog.created === true):
+          
+                filteredDogsSort = dogs.filter(dog => dog.created === false);
+            
+            return { ...state, dogs: filteredDogsSort };
+
 
         default:
             return { ...state };

@@ -1,7 +1,7 @@
 import CardsContainer from "../../components/CardsContainer/CardsContainer";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getDogs, getTemperaments, orderByName, orderByWeight } from "../../redux/actions";
+import { getDogs, getTemperaments, orderByName, orderByWeight, orderBySort } from "../../redux/actions";
 import SearchBar from "../../components/SearchBar/SearchBar"
 import { Paginado } from "../../components/Paginado/Paginado";
 import { filterByTemperament } from "../../redux/actions";
@@ -90,13 +90,7 @@ export function Home({ dogs, temperaments }) {
 
 
     const handleSort = (event) => {
-        let filteredDogs;
-        if (event.target.value === 'Db-dogs') {
-          filteredDogs = dogs.filter(dog => dog.created === true);
-        } else {
-          filteredDogs = dogs.filter(dog => dog.created === false);
-        }
-        currentDogs = filteredDogs;
+        dispatch(orderBySort(event.target.value));
       };
 
 
