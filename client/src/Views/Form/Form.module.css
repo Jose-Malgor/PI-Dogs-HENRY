@@ -1,0 +1,11 @@
+.checkboxContainer {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    column-gap: 16px;
+    row-gap: 8px;
+    margin-top: 15px;
+  }
+  
+  .checkboxContainer label {
+    margin-left: 4px;
+  }

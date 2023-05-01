@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import style from "./Form.module.css";
 
 const Form = () => {
     const [form, setForm] = useState({
@@ -141,7 +142,7 @@ const Form = () => {
                 {errors.life_span && <span>{errors.life_span}</span>}
             </div>
 
-            <div>
+            {/* <div>
                 <span> Temperament </span>
                 <select onChange={changeHandler} name="temperaments">
                     {temperaments.map((temp, index) => (
@@ -150,21 +151,18 @@ const Form = () => {
                         </option>
                     ))}
                 </select>
-            </div>
-
-            {/* <div>
-                <label>Temperamentos: </label>
-                <input type="text" value={form.temperaments} onChange={changeHandler} name="temperaments" />
-                {errors.temperaments && <span>{errors.temperaments}</span>}
             </div> */}
-
-
-            {/* {temperaments.length > 0 && temperaments.map((t) => {
-                return (<div>
-                    <input type='checkbox' id={t.name} name={t.name} onChange={changeHandler} />
+            <div>
+            <label>Choose the right temperaments: </label>
+            </div>
+            <div className={style.checkboxContainer}>
+               {temperaments.length > 0 && temperaments.map((t) => {
+                return (<div  >
+                    <input type='checkbox' id={t.name} name="temperaments" onChange={changeHandler} />
                     <label>{t.name}</label>
                 </div>)
-            })} */}
+            })}
+            </div>
 
             <button type="submit">SUBMIT</button>
 

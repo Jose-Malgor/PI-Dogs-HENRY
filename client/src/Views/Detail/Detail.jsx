@@ -45,6 +45,8 @@ const Detail = () => {
                 <h3>Life Span: </h3>
                 <p>{dog.life_span}</p>
               </div>
+              
+              <div className={style.textItems}>
               <h3>Temperaments: </h3>
               <p>
                 {/* {Array.isArray(dog.temperaments)
@@ -52,6 +54,16 @@ const Detail = () => {
                   : dog.temperament} */}
                   {dog.temperaments}
               </p>
+              </div>
+
+              <div className={style.textItems}>
+              <h3>Id: </h3>
+              <p>            
+                  {dog.id}
+              </p>
+              </div>
+
+
             </div>
             </div>
     )
