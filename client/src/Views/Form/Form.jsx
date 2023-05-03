@@ -13,7 +13,6 @@ const Form = () => {
     }, [dispatch]);
 
     const temperaments = useSelector((state) => state.temperaments);
-   
 
     const [form, setForm] = useState({
         image: "",
@@ -175,6 +174,7 @@ const Form = () => {
             <div>
                 <label>Choose the right temperaments: </label>
             </div>
+
             <div className={style.checkboxContainer}>
                 {temperaments.length > 0 && temperaments.map((t) => {
                     return (<div  key={t.id} >

@@ -20,10 +20,10 @@ export default function SearchBar() {
 
 
    return (
-      <div>
+      <div className={styles.searchContainer}>
          <input className={styles.input} type='search' placeholder="Search dog by name" onChange={(e) => setName(e.target.value)} />
-         <button onClick={()=>handleSubmit()}>Search
-            <img src={lupa} alt="lupa" style={{ maxWidth: "25px" }} />
+         <button className={styles.searchButton} onClick={()=>handleSubmit()}><p className={styles.buttonContent} >Search<img src={lupa} alt="lupa" style={{ maxWidth: "25px" }} /></p>
+            
          </button>
 
       </div>
