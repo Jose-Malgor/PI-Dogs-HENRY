@@ -33,6 +33,7 @@ const getBreedsById = async (req, res) => {
 
 const postDog = async (req, res) => {
     const { image, name, heightMin, heightMax, weightMin, weightMax, life_span, temperaments } = req.body;
+    console.log("req.body:", req.body)
 
     try {
         const newDog = await CcreateDog(image, name, heightMin, heightMax, weightMin, weightMax, life_span, temperaments);

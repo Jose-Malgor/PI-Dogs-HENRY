@@ -70,6 +70,7 @@ export function orderBySort(sort) {
 
 
 export function filterByTemperament(temp) {
+    console.log(temp);
     return {
         type: FILTER_BY_TEMP,
         payload: temp

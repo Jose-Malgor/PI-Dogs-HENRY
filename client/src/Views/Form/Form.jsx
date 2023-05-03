@@ -1,9 +1,20 @@
-import { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import style from "./Form.module.css";
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { getTemperaments } from "../../redux/actions";
 
 const Form = () => {
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+       dispatch(getTemperaments())
+    }, [dispatch]);
+
+    const temperaments = useSelector((state) => state.temperaments);
+   
+
     const [form, setForm] = useState({
         image: "",
         name: "",
@@ -12,7 +23,7 @@ const Form = () => {
         weightMin: "",
         weightMax: "",
         life_span: "",
-        temperaments: "",
+        temperaments: [],
     })
 
     const [errors, setErrors] = useState({
@@ -25,7 +36,7 @@ const Form = () => {
         life_span: "",
         temperaments: ""
     })
-    
+
 
     const changeHandler = (event) => {
         const property = event.target.name;
@@ -33,9 +44,17 @@ const Form = () => {
 
         validate({ ...form, [property]: value }) // le paso el valor que va a tener el estado para que vayan sincronizados.
         setForm({ ...form, [property]: value })
-     
     };
-    
+
+    const changeHandlerCheck = (event) => {
+        
+        const value = event.target.id;
+
+        setForm({ ...form, temperaments: [...form.temperaments, value] })
+
+        //console.log(`temp:${value}`);
+        //console.log(`prop:${property}`);
+    };
 
     const validate = (form) => {
         let expression = /^[a-zA-Z ]+$/gm;
@@ -80,7 +99,7 @@ const Form = () => {
             (aux.heightMax = "Maximun height must be a number from 0 - 100");
         }
         if (!form.temperaments?.length) {
-            (aux.temperaments = "Select at least 1 temperament" );
+            (aux.temperaments = "Select at least 1 temperament");
         }
         setErrors({ ...aux })
         // return errors;
@@ -88,57 +107,58 @@ const Form = () => {
 
     const submitHandler = (event) => {
         event.preventDefault()
+        console.log("form",form)
         axios.post("http://localhost:3001/dogs/", form)
             .then(res => alert(res))
             .catch(err => alert(err))
     }
 
-    const temperaments = useSelector((state) => state.temperaments);
-   
+    
+
 
     return (
-        
+
         <form onSubmit={submitHandler}>
             <h1>Create your dog!!</h1>
             <div>
                 <label>Image: </label>
-                <input type="text" value={form.image} onChange={changeHandler} name="image" />
+                <input type="text"  value={form.image} onChange={changeHandler} name="image" />
                 {errors.image && <span>{errors.email}</span>}
             </div>
 
             <div>
                 <label>Name: </label>
-                <input type="text" value={form.name} onChange={changeHandler} name="name" />
+                <input type="text"  value={form.name} onChange={changeHandler} name="name" />
                 {errors.name && <span>{errors.name}</span>}
             </div>
 
             <div>
                 <label>Height Min: </label>
-                <input type="text" value={form.heightMin} onChange={changeHandler} name="heightMin" />
+                <input type="text"   value={form.heightMin} onChange={changeHandler} name="heightMin" />
                 {errors.heightMin && <span>{errors.heightMin}</span>}
             </div>
 
             <div>
                 <label>Height Max: </label>
-                <input type="text" value={form.heightMax} onChange={changeHandler} name="heightMax" />
+                <input type="text"   value={form.heightMax} onChange={changeHandler} name="heightMax" />
                 {errors.heightMax && <span>{errors.heightMax}</span>}
             </div>
 
             <div>
                 <label>Weight Min: </label>
-                <input type="text" value={form.weightMin} onChange={changeHandler} name="weightMin" />
+                <input type="text"   value={form.weightMin} onChange={changeHandler} name="weightMin" />
                 {errors.weightMin && <span>{errors.weightMin}</span>}
             </div>
 
             <div>
                 <label>Weight Max: </label>
-                <input type="text" value={form.weightMax} onChange={changeHandler} name="weightMax" />
+                <input type="text"  value={form.weightMax} onChange={changeHandler} name="weightMax" />
                 {errors.weightMax && <span>{errors.weightMax}</span>}
             </div>
 
             <div>
                 <label>Life span: </label>
-                <input type="text" value={form.life_span} onChange={changeHandler} name="life_span" />
+                <input type="text"   value={form.life_span} onChange={changeHandler} name="life_span" />
                 {errors.life_span && <span>{errors.life_span}</span>}
             </div>
 
@@ -153,15 +173,15 @@ const Form = () => {
                 </select>
             </div> */}
             <div>
-            <label>Choose the right temperaments: </label>
+                <label>Choose the right temperaments: </label>
             </div>
             <div className={style.checkboxContainer}>
-               {temperaments.length > 0 && temperaments.map((t) => {
-                return (<div  >
-                    <input type='checkbox' id={t.name} name="temperaments" onChange={changeHandler} />
-                    <label>{t.name}</label>
-                </div>)
-            })}
+                {temperaments.length > 0 && temperaments.map((t) => {
+                    return (<div  key={t.id} >
+                        <input type='checkbox' id={t.name}  name="temperaments" onChange={changeHandlerCheck} />
+                        <label>{t.name}</label>
+                    </div>)
+                })}
             </div>
 
             <button type="submit">SUBMIT</button>

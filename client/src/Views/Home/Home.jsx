@@ -9,9 +9,9 @@ import { connect } from "react-redux";
 import { useRef } from "react";
 
 
-export function Home({ dogs, temperaments }) {
+export function Home({ copiedDogs, temperaments }) {
 
-    
+
 
 
     const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export function Home({ dogs, temperaments }) {
     const [currentPage, setCurrentPage] = useState(1);
     const cardsPerPage = 8;
 
-    console.log(`dogs:${dogs}`);
+    //console.log("dogs:", copiedDogs[1]);
 
 
     function prevPage() {
@@ -35,7 +35,7 @@ export function Home({ dogs, temperaments }) {
     }
 
     function nextPage() {
-        let lastPage = Math.ceil(dogs.length / cardsPerPage);
+        let lastPage = Math.ceil(copiedDogs.length / cardsPerPage);
         if (currentPage < lastPage) setCurrentPage(currentPage + 1);
     }
 
@@ -45,7 +45,8 @@ export function Home({ dogs, temperaments }) {
 
     const numberOfLastDog = currentPage * cardsPerPage;
     const numberOfFirstDog = numberOfLastDog - cardsPerPage;
-    const dogsShown = dogs.slice(numberOfFirstDog, numberOfLastDog);
+    //console.log('copiedDogs:',copiedDogs)
+    const dogsShown = copiedDogs.slice(numberOfFirstDog, numberOfLastDog);
     var currentDogs = dogsShown;
 
 
@@ -83,24 +84,23 @@ export function Home({ dogs, temperaments }) {
 
     const handleTemp = (event) => {
         dispatch(filterByTemperament(event.target.value));
-        console.log(`event:${event.target.value}`);
+       // console.log(`event:${event.target.value}`);
     };
-
-    console.log(`temperamentos:${temperaments}`);
 
 
     const handleSort = (event) => {
+       // console.log('in handleSort, event:', event.target.value)
         dispatch(orderBySort(event.target.value));
-      };
+    };
 
 
 
-      const filterTemp = useRef(null);
-      const filterDB = useRef(null);
-      const orderName = useRef(null);
-      const orderWeight = useRef(null);
+    const filterTemp = useRef(null);
+    const filterDB = useRef(null);
+    const orderName = useRef(null);
+    const orderWeight = useRef(null);
 
-      function handleReset(e) {
+    function handleReset(e) {
         // dispatch({ type: "RESET" });
         dispatch(getDogs());
         filterTemp.current.value = "";
@@ -137,8 +137,8 @@ export function Home({ dogs, temperaments }) {
                 </select>
             </div>
             <div>
-            <span> Order by Name </span>
-            <select ref={orderName}
+                <span> Order by Name </span>
+                <select ref={orderName}
                     onChange={(e) => dispatch(orderByName(e.target.value))}
                 >
                     {["Ascending", "Descending"].map((e, i) => (
@@ -149,8 +149,8 @@ export function Home({ dogs, temperaments }) {
                 </select>
             </div>
             <div>
-            <span> Order by Weight </span>
-            <select ref={orderWeight}
+                <span> Order by Weight </span>
+                <select ref={orderWeight}
                     onChange={(e) => dispatch(orderByWeight(e.target.value))}
                 >
                     {["Weightiest", "Lightest"].map((e, i) => (
@@ -160,9 +160,9 @@ export function Home({ dogs, temperaments }) {
                     ))}
                 </select>
                 <div>
-                <button value="reset" onClick={handleReset}>
-                    Reset
-                </button>
+                    <button value="reset" onClick={handleReset}>
+                        Reset
+                    </button>
                 </div>
             </div>
             <CardsContainer
@@ -171,7 +171,7 @@ export function Home({ dogs, temperaments }) {
             <div>
                 <Paginado
                     cardsPerPage={cardsPerPage}
-                    allDogs={dogs.length}
+                    allDogs={copiedDogs.length}
                     paginado={paginado}
                     prevPage={prevPage}
                     nextPage={nextPage}
@@ -188,7 +188,7 @@ export function Home({ dogs, temperaments }) {
 
 export function mapSateToProps(state) {
     return {
-        dogs: state.dogs,
+        copiedDogs: state.copiedDogs,
         temperaments: state.temperaments
     }
 }

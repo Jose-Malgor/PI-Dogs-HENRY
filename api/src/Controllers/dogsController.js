@@ -37,17 +37,41 @@ const CcleanArray = (arr) =>
 const CcreateDog = async (image, name, heightMin, heightMax, weightMin, weightMax, life_span, temperaments) => {
     const newDog = await Dog.create({ image, name, heightMin, heightMax, weightMin, weightMax, life_span });
 
-    console.log(temperaments);
+//     console.log("temperaments", temperaments);
 
-    const tempDb = await Temperament.findAll({
-        where: { name: temperaments }
-    });
+//     const tempDb = await Temperament.findAll({
+//         where: { name: temperaments }
+//     });
+//     console.log('tempDB:', tempDb)
+
+//     newDog.addTemperaments(tempDb);
+
+//     return newDog;
+// };
+
+const temperamentsId = [];
+// se busca en la tabla Temperaments el registro correspondiente al temp en cuestion con FindOne
+
+for (const temp of temperaments) {                        // temperaments es un array de temperamentos
+  const temperametsOfDog = await Temperament.findOne({
+    where: {
+      name: temp,
+    },
+  });
+  // se agrega el id del temperamento al array
+  if (temperametsOfDog) {
+    temperamentsId.push(temperametsOfDog.id);
+  }
+}
+//se asocia los temp seleccionado al dog nuevo
+await newDog.addTemperament(temperamentsId);
+
+return newDog;
+}
 
 
-    newDog.addTemperaments(tempDb);
 
-    return newDog;
-};
+
 
 
 
@@ -85,6 +109,8 @@ const CgetAllDogs = async () => {
             Temperaments: temperaments
         };
     });
+
+    
 
     const apiDogsRaw = (
         await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)).data;

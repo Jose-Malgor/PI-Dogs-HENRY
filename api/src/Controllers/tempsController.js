@@ -20,6 +20,7 @@ const apiTemp = apiInfo.data
 
       for (let i = 0; i < apiTemp.length; i++) {
         const name = apiTemp[i];
+        
          await Temperament.findOrCreate({  
           where: {name }, });
       }
@@ -28,7 +29,7 @@ const apiTemp = apiInfo.data
         order: ["name"], raw: true     //Al habilitar la opción raw: true, Sequelize devolverá los resultados de la consulta como objetos planos de JavaScript en lugar de objetos Sequelize. Esto significa que los objetos resultantes no tendrán las funciones y propiedades adicionales que Sequelize agrega a los objetos
       });
 
-//console.log(dbTemp);
+console.log(dbTemp);
 
  return dbTemp;
 }

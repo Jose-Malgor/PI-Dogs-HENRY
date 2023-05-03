@@ -2,6 +2,7 @@ import { GET_DOGS, GET_DOG_BY_ID, GET_DOG_BY_NAME, FILTER_BY_TEMP, GET_TEMPS, OR
 
 const initialState = {
     dogs: [],
+    copiedDogs:[],
     detail: [],
     temperaments: []
 };
@@ -12,43 +13,42 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 dogs: action.payload,
-
+                copiedDogs:action.payload,
             };
 
         case GET_DOG_BY_ID:
             return { ...state, detail: action.payload };
 
         case GET_DOG_BY_NAME:
-            return { ...state, dogs: action.payload };
+            return { ...state, copiedDogs: action.payload };
 
         case GET_TEMPS:
             return { ...state, temperaments: action.payload };
 
 
         case FILTER_BY_TEMP:
-            const allDogs = state.dogs
-            const temp = `'${action.payload}'`;
+            const allDogsTemp = state.dogs;
+            const temp = `${action.payload}`;
+            console.log(`tempR:${temp}`)
             const filteredDogsTemp =
-                allDogs.filter((dog) => dog.temperament?.includes(temp));
-            return { ...state, dogs: filteredDogsTemp };
+                allDogsTemp.filter((dog) => dog.temperaments?.includes(temp));
+            return { ...state, copiedDogs: filteredDogsTemp };
 
 
         case ORDER_BY_NAME:
+            const allDogsName = state.dogs;
             let orderNameFunction =
                 action.payload === "Ascending"
-                    ? (a, b) => {
-                        return a.name > b.name ? 1 : -1;
-                    }
-                    : (a, b) => {
-                        return a.name < b.name ? 1 : -1;
-                    };
-            let orderedName = state.dogs.sort(orderNameFunction);
+                ? (a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+                : (a, b) => b.name.localeCompare(a.name, undefined, { sensitivity: 'base' });
+            let orderedName = allDogsName.sort(orderNameFunction);
             return {
                 ...state,
-                dogs: [...orderedName],
+                copiedDogs: [...orderedName],
             };
 
         case ORDER_BY_WEIGHT:
+            const allDogsWeight = state.dogs;
             let orderWeightFunction =
                 action.payload === "Weightiest"
                     ? (a, b) => {
@@ -57,21 +57,21 @@ const rootReducer = (state = initialState, action) => {
                     : (a, b) => {
                         return parseInt(a.weightMin) > parseInt(b.weightMin) ? 1 : -1;
                     };
-            let orderedWeight = state.dogs.sort(orderWeightFunction);
+            let orderedWeight = allDogsWeight.sort(orderWeightFunction);
             return {
                 ...state,
-                dogs: [...orderedWeight],
+                copiedDogs: [...orderedWeight],
             };
 
         case ORDER_BY_SORT:
-            const dogs = state.dogs
+            const allDogsSort = state.dogs
             let filteredDogsSort;
             action.payload === 'Db-dogs' ?
-                filteredDogsSort = dogs.filter(dog => dog.created === true):
+                filteredDogsSort = allDogsSort.filter(dog => dog.created === true):
           
-                filteredDogsSort = dogs.filter(dog => dog.created === false);
+                filteredDogsSort = allDogsSort.filter(dog => dog.created === false);
             
-            return { ...state, dogs: filteredDogsSort };
+            return { ...state, copiedDogs: filteredDogsSort };
 
 
         default:
